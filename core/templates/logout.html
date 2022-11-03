@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+Logout
+{% endblock %}
+
+{% block head %}
+<style>
+    body{
+        overflow-y: hidden;
+        background-image: url('{% static 'images/background_1.png' %}');
+        background-size: cover;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+   {% include 'header_login.html' %}
+   <div class="min-h-screen bg-black bg-opacity-25 bg-blend-overlay showcase border-gray-600 border-b-8 flex justify-start items-center bg-no-repeat">
+        <div class="z-10 h-full py-32 md:py-0 text-gray-100 text-center flex items-center flex-col" style="margin-left: 100px">
+            <h2 class="text-2xl">Você saiu da sua conta</h2>
+            <div class="flex flex-nowrap justify-center space-x-5 p-5">
+            <a href="{% url 'core:login' %}"><button class="bg-red-600  py-1 px-3 text-white md:text-lg rounded-md">Fazer Login</button></a>
+            </div>
+        </div>
+    </div>
+
+    {% include 'footer.html' %}
+{% endblock %}

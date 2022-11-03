@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block titulo %}
+Consulta de Clientes
+{% endblock %}
+
+{% block content %}
+    {% include 'header_principal.html' %}
+    {% include 'menu.html' %}
+
+    <!-- Conteúdo -->
+    <main class="container-fluid text-center py-8">
+        <h1 class="h1">Consulta de Clientes</h1>
+        <div class="text-right"><a class="btn-success py-2 px-2 mr-5" href="{% url 'core:clientecadastro' %}"><i class="bi bi-plus-lg"></i> Cadastrar Cliente</a></div>
+        <br>
+        <table class="table table-striped table-hover">
+            <thead>
+                <th scope="col">Nome</th>
+                <th scope="col">CPF</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Telefone</th>
+                <th scope="col">Endereço</th>
+                <th scope="col">Data de Nascimento</th>
+                <th scope="col">Latitude</th>
+                <th scope="col">Longitude</th>
+                <th scope="col">Ações</th>
+            </thead>
+            <tbody>
+                {% for cliente in object_list %}
+                <tr>
+                    <td>{{ cliente.nome }}</td>
+                    <td>{{ cliente.cpf }}</td>
+                    <td>{{ cliente.email }}</td>
+                    <td>{{ cliente.telefone }}</td>
+                    <td>{{ cliente.endereco }}</td>
+                    <td>{{ cliente.data_nascimento }}</td>
+                    <td>{{ cliente.latitude }}</td>
+                    <td>{{ cliente.longitude }}</td>
+                    <td><a href="{% url 'core:clientealterar' cliente.pk %}" class="btn-warning py-1 px-2 rounded"><i class="bi bi-pencil-fill"></i></a> &nbsp;&nbsp; <a href="{% url 'core:clientedeletar' cliente.pk %}" class="btn-danger py-1 px-2 rounded"><i class="bi bi-trash3-fill"></i></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <!--Paginação -->
+        <nav class="mt-4">
+            {% if page_obj.has_other_pages %}
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <a href="?page=1" class="bg-white mb-4 px-2" style="padding: 6px 0; color: #0d6efd; border-radius: 1px; border: 1px solid #d3d3d3;">Primeiro</a>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a></li>
+                {% else %}
+                <li class="page-item disabled"></li>
+                {% endif %}
+
+
+                {% if pages_obj.number|add:'1' > 1 %}
+                <li><a class="page-link" href="?page={{ page_obj.number|add:'1' }}">&hellip;</a></li>
+                {% endif %}
+
+                {% for i in page_obj.paginator.page_range %}
+                {% if page_obj.number == i %}
+                <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only"></span></span></li>
+                {% elif i > page_obj.number|add:'1' and i < page_obj.number|add:'1'  %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.paginator.num_pages > page_obj.number|add:'0' %}
+                <li><a class="page-link" href="?page={{ page_obj.number|add:'1' }}">&hellip;</a></li>
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                <li><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a></li>
+                {% endif %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Próximo</a></li>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="bg-white mb-4 px-2" style="padding: 6px 0; color: #0d6efd; border-radius: 1px; border: 1px solid #d3d3d3;">Último</a>
+                {% else %}
+                <li class="page-item disabled"></li>
+                {% endif %}
+            </ul>
+
+            {% endif %}
+        </nav>
+    </main>
+
+    {% include 'footer.html' %}
+
+{% endblock %}

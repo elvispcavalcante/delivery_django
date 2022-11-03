@@ -1,0 +1,46 @@
+{% load static %}
+
+<!-- Menu -->
+<nav class="navbar navbar-light bg-gradient shadow" style='background-color: #819ca9;'>
+  <div class="container-fluid" id='navbar'>
+    <button class="navbar-toggler" type="button" data-bs-toggle="modal" data-bs-target="#ModalMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <span class="navbar-brand mb-0 h1 ps-3">MENU</span>
+  </div>
+</nav>
+
+<div class="modal true" id="ModalMenu" tabindex="-1" aria-labelledby="ModalMenuLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabel">MENU</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ><i class="bi bi-x-lg"></i></button>
+      </div>
+      <div class="modal-body">
+
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><a class="link_sem_formatacao_navbar" href="{% url 'core:principal' %}"><i class="bi bi-house-fill"></i> HOME</a></li>
+          <li class="list-group-item"><a class="link_sem_formatacao_navbar" href="{% url 'core:lojaconsulta' %}"><i class="bi bi-shop"></i> CADASTRO DA LOJA</a></li>
+          <li class="list-group-item"><a class="link_sem_formatacao_navbar" href="{% url 'core:categoriaconsulta' %}"><i class="bi bi-tags-fill"></i> CADASTRO DA CATEGORIA</a></li>
+          <li class="list-group-item"><a class="link_sem_formatacao_navbar" href="{% url 'core:produtoconsulta' %}"><i class="bi bi-person-workspace"></i> CADASTRO DE PRODUTOS</a></li>
+          <li class="list-group-item"><a class="link_sem_formatacao_navbar" href="{% url 'core:entregadorconsulta' %}"><i class="bi bi-person-badge-fill"></i> CADASTRO DE ENTREGADORES</a></li>
+          <li class="list-group-item"><a class="link_sem_formatacao_navbar" href="{% url 'core:clienteconsulta' %}"><i class="bi bi-person-workspace"></i> CADASTRO DE CLIENTES </a></li>
+          <li class="list-group-item"><a class="link_sem_formatacao_navbar" href="#"><i class="bi bi-basket-fill"></i> VENDAS</a></li>
+          <li class="list-group-item"><a class="link_sem_formatacao_navbar" href="#"><i class="bi bi-cart-fill"></i> ENTREGAS</a></li>
+          <li class="list-group-item"><a class="link_sem_formatacao_navbar" href="#"><i class="bi bi-graph-up-arrow"></i> PAINEL FINANCEIRO</a></li>
+          <li class="list-group-item"><a class="link_sem_formatacao_navbar" href="#"><i class="bi bi-envelope-paper-fill"></i> ENVIAR E-MAIL</a></li>
+          <li class="list-group-item"><a class="link_sem_formatacao_navbar" href="#"><i class="bi bi-pin-map-fill"></i> MAPAS</a></li>
+          <li class="list-group-item"><a class="link_sem_formatacao_navbar" href="#"><i class="bi bi-clipboard-data-fill"></i> RELATÓRIO</a></li>
+          <li class="list-group-item"><a class="link_sem_formatacao_navbar" href="{% url 'core:criarconta' %}"><i class="bi bi-person-plus-fill"></i> CADASTRO DE USUÁRIOS</a></li>
+        </ul>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="px-3 py-2 rounded bg-danger text-white" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fim do Menu -->

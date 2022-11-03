@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+Principal
+{% endblock %}
+
+{% block content%}
+    {% include 'header_principal.html' %}
+    {% include 'menu.html' %}
+
+    <!-- Conteúdo -->
+    <main class="container text-center py-8">
+      <h1 class="text-uppercase" style="font-size: 32px; font-weight: bold;">Seja bem-vindo, {{ user.first_name }} {{ user.last_name}}!!</h1>
+    </main>
+    <!-- Fim Conteúdo -->
+{% endblock %}

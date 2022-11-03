@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block titulo %}
+Cadastrar de Produtos
+{% endblock %}
+
+{% block content %}
+    {% include 'header_principal.html' %}
+    {% include 'menu.html' %}
+    <!-- Conteúdo -->
+    <main class="container-fluid text-center py-8">
+        <div class="z-10 h-full mx-20 py-32 md:py-0 text-black text-center flex items-center flex-col">
+            <h2 class="text-2xl">Cadastro de Produto</h2>
+            <form method="post" autocomplete="off" autocapitalize="characters" >
+                {% csrf_token %}
+                <fieldset class="form-group" style="width:500px !important;">
+                    <legend class="border-bottom mb-4">Informe os campos abaixo:</legend>
+                    {{ form|crispy }}
+                </fieldset>
+                <button class="bg-red-600 py-1 px-3 text-white md:text-lg rounded-md" type="submit">Salvar</button>
+            </form>
+        </div>
+    </main>
+{% include 'footer.html' %}
+
+{% endblock %}

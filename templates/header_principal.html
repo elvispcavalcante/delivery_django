@@ -1,0 +1,18 @@
+{% load static %}
+<!-- Cabeçalho -->
+<header class="container-fluid" style="background-color: #546e7a;">
+  <div class='d-flex flex-row'>
+    <div class="d-inline-flex flex-row p-2 w-50">
+        <a href="{% url 'core:principal' %}"><img src="{% static 'images/logo_3.png' %}" class="logo" alt="Logo da KM Gestão"></a>
+    </div>
+    <div class="d-inline-flex flex-row-reverse align-items-center p-2 w-50">
+        <div class="p-1">
+          <a href="{% url 'core:logout' %}" class="px-3 py-2 rounded btn-danger">Sair</a>
+        </div>
+        <div class="p-1">
+          <a href="{% url 'core:editarperfil' user.pk %}" class="px-3 py-2 rounded btn-danger">Editar Perfil</a>
+        </div>
+    </div>
+  </div>
+</header>
+<!-- Fim Header -->

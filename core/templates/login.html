@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block titulo %}
+Fazer Login
+{% endblock %}
+
+{% block head %}
+<style>
+    body{
+        overflow-y: hidden;
+        background-image: url('{% static 'images/background_1.png' %}');
+        background-size: cover;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+   {% include 'header_login.html' %}
+
+    <div class="min-h-screen bg-black bg-opacity-25 bg-blend-overlay showcase border-gray-600 border-b-8 flex justify-start items-start bg-no-repeat">
+        <div class="w-30 h-100 text-secondary text-center d-flex align-items-start mt-16 flex-column" style="margin-left: 100px;">
+            <form method="post">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Faça Login para continuar</legend>
+                    {{ form|crispy }}
+                </fieldset>
+                <button class="bg-red-600 py-1 my-2 px-3 w-full text-white md:text-lg rounded-md" type="submit">Fazer Login</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block titulo %}
+Consulta de Produtos
+{% endblock %}
+
+{% block content %}
+    {% include 'header_principal.html' %}
+    {% include 'menu.html' %}
+
+    <!-- Conteúdo -->
+
+    <div class="text-start" style='margin-top: 40px; margin-left: 40px;'>
+      <a class="btn-success py-2 px-2 rounded me-2" href="{% url 'core:vendacadastro' %}" style='text-decoration: none;'><i class="bi bi-plus-lg"></i> Realizar Venda </a>
+    </div>
+    <br><br>
+    <section class='container'>
+      <div class=row>
+        <div class="text-center col-6">
+            <fieldset class='border-bottom'>
+              <legend class='fw-bold'>Vendas Abertas</legend>
+              <table class='table table-striped'>
+                <tr class='table-success border-bottom'>
+                  <th scope='col'>Data Venda</th>
+                  <th scope='col'>Cliente</th>
+                  <th scope='col'>Forma de Pagamento</th>
+                  <th scope='col'>Forma de Venda</th>
+                  <th scope='col'>Status</th>
+                  <th scope='col'>Ações</th>
+                </tr>
+                {% for venda in vendas %}
+                <tr>
+                  <th scope='row'>{{ venda.data_venda }}</th>
+                  <td scope='row'>{{ venda.cliente }}</td>
+                  <td scope='row'>{{ venda.forma_pagamento }}</td>
+                  <td scope='row'>{{ venda.forma_da_venda }}</td>
+                  <td scope='row'>{{ venda.status }}</td>
+                  <td  scope='row align-middle' style='width: 250px;'>
+                    <div class="text-right">
+                      <a class="btn-success py-1 px-2 rounded me-2" href="#"><i class="bi bi-plus-lg"></i></a>
+                      <a class="btn-warning py-1 px-2 rounded me-2" href="#"><i class="bi bi-pencil-fill"></i></a>
+                      <a href="#" class="btn-danger py-1 px-2 rounded"><i class="bi bi-trash3-fill"></i></a>
+                    </div>
+                  </td>
+                </tr>
+                {% empty %}
+                  Nenhuma venda foi encontrada
+                {% endfor %}
+              </table>
+            </fieldset>
+          </div>
+
+          <div class="text-center col-6">
+            <fieldset class='border-bottom'>
+              <legend class='fw-bold'>Vendas Finalizadas</legend>
+              <table class='table table-striped'>
+                <tr class='table-success border-bottom'>
+                  <th scope='col'>Data Venda</th>
+                  <th scope='col'>Cliente</th>
+                  <th scope='col'>Forma de Pagamento</th>
+                  <th scope='col'>Forma de Venda</th>
+                  <th scope='col'>Status</th>
+                  <th scope='col'>Ações</th>
+                </tr>
+                {% for venda in vendas_finalizadas %}
+                <tr>
+                  <th scope='row'>{{ venda.data_venda }}</th>
+                  <td scope='row'>{{ venda.cliente }}</td>
+                  <td scope='row'>{{ venda.forma_pagamento }}</td>
+                  <td scope='row'>{{ venda.forma_da_venda }}</td>
+                  <td scope='row'>{{ venda.status }}</td>
+                  <td  scope='row align-middle' style='width: 250px;'>
+                    <div class="text-right">
+                      <a class="btn-success py-1 px-2 rounded me-2" href="#"><i class="bi bi-plus-lg"></i></a>
+                      <a class="btn-warning py-1 px-2 rounded me-2" href="#"><i class="bi bi-pencil-fill"></i></a>
+                      <a href="#" class="btn-danger py-1 px-2 rounded"><i class="bi bi-trash3-fill"></i></a>
+                    </div>
+                  </td>
+                </tr>
+                {% empty %}
+                  Nenhuma venda_finalizada foi encontrada
+                {% endfor %}
+              </table>
+            </fieldset>
+          </div>
+      </div>
+    </section>\
+    <!-- Fim Conteúdo -->
+
+    {% include 'footer.html' %}
+
+{% endblock %}
