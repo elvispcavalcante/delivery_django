@@ -34,8 +34,8 @@ Cadastro de Vendas
                             {{ form_detalhe_venda.management_form|crispy }}
                             {% for fdv in form_detalhe_venda %}
                             <tr>
+                                <td scope="col">{{ fdv.id|as_crispy_field }}</td>
                                 <td scope="col">{{ fdv.produto|as_crispy_field }}</td>
-                                <td scope="col">{{ fdv.preco|as_crispy_field }}</td>
                                 <td scope="col">{{ fdv.DELETE|as_crispy_field }}</td>
                             </tr>
                             {% endfor %}

@@ -43,13 +43,13 @@ class ClienteAdmin(admin.ModelAdmin):
 
 
 class VendaAdmin(admin.ModelAdmin):
-    list_display = ['data_venda', 'cliente', 'forma_pagamento', 'forma_da_venda']
+    list_display = ['id', 'data_venda', 'cliente', 'forma_pagamento', 'forma_da_venda']
     search_fields = ['cliente', 'forma_pagamento', 'forma_da_venda']
     list_per_page = 10
 
 
 class DetalheVendaAdmin(admin.ModelAdmin):
-    list_display = ['venda', 'produto', 'preco']
+    list_display = ['id', 'venda', 'produto']
     search_fields = ['venda', 'produto']
     list_per_page = 10
 

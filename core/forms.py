@@ -180,9 +180,13 @@ class VendaCadastroForm(forms.ModelForm):
 class DetalheVendaCadastroForm(forms.ModelForm):
     class Meta:
         model = DetalheVenda
-        fields = ('venda', 'produto', 'preco')
+        fields = ('id', 'venda', 'produto')
         labels = {
+            'id': 'Código',
             'venda': 'Venda',
             'produto': 'Produto',
-            'preco': 'Preço',
         }
+
+
+
+

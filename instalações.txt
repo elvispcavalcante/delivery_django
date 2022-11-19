@@ -1,0 +1,32 @@
+pip install django
+django-admin startproject kmgestao .
+django-admin startapp core
+pip install psycopg2
+pip install psycopg2-binary
+pip install django-crispy-forms
+pip install crispy-bootstrap5
+pip install gunicorn
+pip install dj-static
+pip install django-stdimage
+pip install pandas
+pip install openpyxl
+pip install Pillow
+pip install requests
+pip install fpdf2
+pip install secure-smtplib
+pip install -U googlemaps
+pip install folium
+pip install django-tempus-dominus
+
+
+pip freeze > requirements.txt
+
+
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+python manage.py createsuperuser
+
+
+# Exemplo de colocar o streamlit dentro do django
+<iframe src="http://localhost:8501/" name="iframe_a" height="400px" width="100%" title="Iframe Example"></iframe>

@@ -8,8 +8,8 @@ from django.contrib.auth import views as auth_view
 from .views import PaginaPerfil, Criarconta, Principal, LojaCadastro, LojaConsulta, LojaAlteracao, LojaDeletar, \
     EntregadorCadastro, EntregadorConsulta, EntregadorAlterar, EntregadorDeletar, CategoriaCadastro, \
     CategoriaAlterar, CategoriaConsulta, CategoriaDeletar, ClienteCadastro, ClienteConsulta, ClienteAlterar, \
-    ClienteDeletar, ProdutoCadastro, ProdutoConsulta, ProdutoAlterar, ProdutoDeletar, VendaCadastro, VendaConsulta, \
-    consultaVenda, inserirVenda
+    ClienteDeletar, ProdutoCadastro, ProdutoConsulta, ProdutoAlterar, ProdutoDeletar, consultaVenda, \
+    inserirVenda, editarVenda, deletarVenda
 
 app_name = 'core'
 
@@ -73,10 +73,9 @@ urlpatterns = [
          name='clientedeletar'),
 
     # ------- URLS DE VENDA -------
-    path('vendacadastro/', VendaCadastro.as_view(success_url=reverse_lazy('core:vendaconsulta')),
-         name='vendacadastro'),
-    path('vendaconsulta/', VendaConsulta.as_view(), name='vendaconsulta'),
     path('consultavenda/', consultaVenda, name='consultavenda'),
-    path('inserirvenda/', inserirVenda, name='inserirvenda')
+    path('inserirvenda/', inserirVenda, name='inserirvenda'),
+    path('editarvenda/<int:id>', editarVenda, name='editarvenda'),
+    path('deletarvenda/<int:id>', deletarVenda, name='deletarvenda'),
 ]
 

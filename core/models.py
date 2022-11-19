@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django_cpf_cnpj.fields import CPFField, CNPJField
 from django.utils import timezone
 
+
 # ------- MODEL USUÁRIO -------
 class Usuario(AbstractUser):
     cpf = CPFField(masked=True)
@@ -141,7 +142,7 @@ class Venda(models.Model):
     data_modificacao = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(timezone.localtime(self.data_venda).strftime('%d/%m/%Y')) + ' - ' + self.cliente.nome + ' - ' \
+        return str(self.id) + ' - ' + str(timezone.localtime(self.data_venda).strftime('%d/%m/%Y')) + ' - ' + self.cliente.nome + ' - ' \
                + str(self.cliente.cpf)
 
     class Meta:
@@ -150,14 +151,14 @@ class Venda(models.Model):
 
 # ------- MODEL DETALHES VENDAS -------
 class DetalheVenda(models.Model):
-    venda = models.ForeignKey(Venda, on_delete=models.CASCADE)
-    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
-    preco = models.DecimalField(max_digits=8, decimal_places=2)
+    venda = models.ForeignKey(Venda, on_delete=models.CASCADE, related_name='vendas')
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE, related_name='produtos')
     data_criacao = models.DateTimeField(editable=False, auto_now_add=True)
     data_modificacao = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.venda.id) + ' - ' + self.produto.produto + ' - ' + str(self.preco)
+        return str(self.venda.id) + ' - ' + str(self.id) + ' - ' + self.produto.produto + ' - ' + \
+               str(self.produto.preco)
 
     class Meta:
         ordering = ['venda']
@@ -175,4 +176,6 @@ class Entrega(models.Model):
 
     class Meta:
         ordering = ['venda']
+
+
 

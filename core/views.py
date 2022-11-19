@@ -1,5 +1,3 @@
-from datetime import timedelta
-
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -10,6 +8,9 @@ from .forms import CriarContaForm, LojaCadastroForm, LoginForm, EntregadorCadast
     ClienteCadastroForm, ProdutoCadastroForm, VendaCadastroForm, DetalheVendaCadastroForm
 from .models import Usuario, Loja, Entregador, Categoria, Produto, Cliente, Venda, DetalheVenda, Entrega
 from django.views.generic.detail import SingleObjectMixin
+from django.db.models.aggregates import Sum
+from django.contrib import messages
+from django.contrib.messages import constants
 
 
 # --------- Views do Usuário ---------
@@ -279,34 +280,82 @@ def inserirVenda(request):
             }
         return render(request, 'venda_cadastro.html', context)
 
+
 def consultaVenda(request):
     if request.method == 'GET':
         vendas = Venda.objects.all().exclude(status='Finalizado')
         vendas_finalizadas = Venda.objects.filter(status='Finalizado')
+        # detalhes_vendas = DetalheVenda.objects.filter(venda__status__in=['Em atendimento', 'Entrega'])
+        detalhes_vendas = DetalheVenda.objects.values('venda__id').annotate(total=Sum('produto__preco'))
+
+        # print(detalhes_vendas)
         context = {
             'vendas': vendas,
-            'vendas_finalizadas': vendas_finalizadas
+            'vendas_finalizadas': vendas_finalizadas,
+            'detalhes_vendas': detalhes_vendas,
         }
         return render(request, "venda_consulta.html", context)
 
 
-class VendaConsulta(LoginRequiredMixin, SingleObjectMixin, FormView):
-    template_name = 'venda_consulta.html'
-    model = Venda
+def editarVenda(request, id):
+    if request.method == 'GET':
+        objeto = Venda.objects.filter(id=id).first()
 
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object(queryset=Venda.objects.all())
-        return super().get(request, *args, **kwargs)
+        if objeto is None:
+            return redirect(reverse_lazy('core:consultavenda'))
 
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object(queryset=Venda.objects.all())
-        return super().get(request, *args, **kwargs)
+        form = VendaCadastroForm(instance=objeto)
+        form_detalhe_venda_factory = inlineformset_factory(Venda, DetalheVenda, form=DetalheVendaCadastroForm, extra=5)
+        form_detalhe_venda = form_detalhe_venda_factory(instance=objeto)
+        context = {
+            'form': form,
+            'form_detalhe_venda': form_detalhe_venda,
+        }
+        return render(request, "venda_cadastro.html", context)
+    elif request.method == "POST":
+        objeto = Venda.objects.filter(id=id).first()
+
+        if objeto is None:
+            return redirect(reverse_lazy('core:consultavenda'))
+
+        form = VendaCadastroForm(request.POST, instance=objeto)
+        form_detalhe_venda_factory = inlineformset_factory(Venda, DetalheVenda, form=DetalheVendaCadastroForm)
+        form_detalhe_venda = form_detalhe_venda_factory(request.POST, instance=objeto)
+
+        if form.is_valid() and form_detalhe_venda.is_valid():
+            # print(form.is_valid())
+            # print(form_detalhe_venda.is_valid())
+            # print('Error Messages: ', form_detalhe_venda.error_messages)
+            # print('Errors: ', form_detalhe_venda.errors)
+            venda = form.save()
+            form_detalhe_venda.instance = venda
+            form_detalhe_venda.save()
+            return redirect(reverse_lazy('core:consultavenda'))
+        else:
+            context = {
+                'form': form,
+                'form_detalhe_venda': form_detalhe_venda
+            }
+            print(context)
+            messages.add_message(request, constants.ERROR, f'Erro ao atualizar a venda')
+        return render(request, 'venda_cadastro.html', context)
 
 
-    def form_valid(self, form):
-        form.save()
+def deletarVenda(request, id):
+    if request.method == 'POST':
+        venda = Venda.objects.filter(id=id).first()
+        if venda is None:
+            return redirect(reverse_lazy('core:consultavenda'))
+        venda.delete()
+        messages.add_message(request, constants.SUCCESS, 'Venda excluída com sucesso')
+        return redirect(reverse_lazy('core:consultavenda'))
+    if request.method == 'GET':
+        venda = Venda.objects.filter(id=id).first()
+        if venda is None:
+            return redirect(reverse_lazy('core:consultavenda'))
 
-        return HttpResponseRedirect(self.get_success_url())
+        context = {
+            'venda': venda,
+        }
 
-    def get_success_url(self):
-        return reverse('core:principal')
+        return render(request, 'venda_deletar.html', context)
